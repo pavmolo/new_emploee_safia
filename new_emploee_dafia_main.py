@@ -51,11 +51,12 @@ def show_predict_page():
     ed = st.radio("Образование:", ed_list)
     
     num_input = create_new_dict(sex, age, fam, childrens, ed)
+    if st.button('Посчитать!'):
 
-    load_model = pickle.load(open('model.pickle', 'rb'))
-    pred = load_model.predict([num_input]) #вставляем итоговый список
-    st.title(f"Числовой вход: {num_input}")
-    st.title(f"Оценка срока службы: {round(pred[0], 0)} месяцев")
+        load_model = pickle.load(open('model.pickle', 'rb'))
+        pred = load_model.predict([num_input]) #вставляем итоговый список
+        st.title(f"Числовой вход: {num_input}")
+        st.title(f"Оценка срока службы: {round(pred[0], 0)} месяцев")
     
 # Вызываем приложение
 show_predict_page()
