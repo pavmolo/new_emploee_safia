@@ -1,33 +1,62 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import pickle
+from catboost import CatBoostRegressor
+
+def create_new_dict(sex, age, fam, childrens, ed):
+    num_input = []
+    num_input.append(age)
+    
+    if sex == "Мужчина":
+        num_input.append(1)
+    else:
+        num_input.append(0)
+        
+    num_input.append(childrens)
+    
+    if fam == "Холост / Не замужем":
+        num_input.append(2)
+    else:
+        num_input.append(1)
+        
+    if ed == 'Высшее':
+        num_input.append(0)
+    elif ed == 'Неоконченное высшее':
+        num_input.append(1)
+    elif ed == 'Среднее':
+        num_input.append(3)
+    else:
+        num_input.append(4)    
+    
+    return num_input
+
+
+
 
 # Функция приложения
 def show_predict_page():
     #image = Image.open('https://www.kaizen.com/images/kaizen_logo.png')
     #st.image(image, caption='Kaizen Institute')
     st.markdown('''<a href="http://kaizen-consult.ru/"><img src='https://www.kaizen.com/images/kaizen_logo.png' style="width: 50%; margin-left: 25%; margin-right: 25%; text-align: center;"></a><p>''', unsafe_allow_html=True)
-    st.title("Определи свой потенциал")
-    val_list = ['Рубль', 'Доллар США']
-    val_0 = st.radio("Выберите валюту:", val_list, index=0)
-    if val_0 == 'Рубль':
-        val = 'млн₽'
-    else:
-        val = 'тыс$'
-    st.subheader('Нам необходима информация, чтобы спрогнозировать ваши показатели прибыли')
-    industry = st.radio("Ваша отрасль:", industry_list)
-    market_state = st.radio("Охарактеризуйте состояние сектора, в котором вы работаете:", gro_state_list)
-    revenue = st.number_input(f"Какова ваша выручка, {val} в год:", value=0)
-    margin = st.slider("Какова ваша маржа операционной прибыли, % к выручке:", -20, 80, 0, 2)
-    growth = st.slider("Каков ваш среднегодовой рост выручки в % за последние 3 года", -20, 100, 0, 5)
-    lost = lost_profit(industry, market_state, revenue, margin, growth)
-    lost = pd.Series(lost).round(0)
-    st.title("Результат")
-    col1, col2, col3 = st.columns(3)
-    proc_lost_rev = - (lost[0] / revenue * 100)
-    proc_lost_1 = - (lost[1] / revenue * 100)
-    proc_lost_2 = - (lost[2] / revenue * 100)
+    st.title("Определи потенциал сотрудника")
+    sex_list = ['Мужчина', 'Женщина']
+    ed_list = ['Высшее', 'Неоконченное высшее', 'Среднее', 'Среднеспециальное']
+    fam_list = ['Холост / Не замужем', 'Женат / Замужем']
+    st.subheader('Нам необходима информация, чтобы спрогнозировать срок службы')
+    sex = st.radio("Пол:", sex_list)
+    age = st.slider("Возраст", 16, 50, 20, 1)
+    fam = st.radio("Семейное положение:", fam_list)
+    childrens = st.slider("Количество детей", 0, 5, 0, 1)
+    ed = st.radio("Образование:", ed_list)
     
+    num_input = create_new_dict(sex, age, fam, childrens, ed)
+    
+    with open('model.pickle', 'rb') as f:
+        load_model = pickle.load(f)
+    pred = load_model.predict(num_input) #вставляем итоговый список
+    
+    st.title(f"Оценка срока службы: {int(pred)} месяцев")
     
 # Вызываем приложение
 show_predict_page()
