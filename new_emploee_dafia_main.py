@@ -53,7 +53,7 @@ def show_predict_page():
     num_input = create_new_dict(sex, age, fam, childrens, ed)
 
     load_model = pickle.load(open('model.pickle', 'rb'))
-    pred = load_model.predict(num_input) #вставляем итоговый список
+    pred = load_model.predict([num_input]) #вставляем итоговый список
     st.title(f"Числовой вход: {num_input}")
     st.title(f"Оценка срока службы: {int(pred)} месяцев")
     
