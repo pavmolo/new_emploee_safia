@@ -52,9 +52,8 @@ def show_predict_page():
     ed = st.radio("Образование:", ed_list)
     
     num_input = create_new_dict(sex, age, fam, childrens, ed)
-    
-    with open('model.pickle', 'rb') as f:
-        load_model = pickle.load(f)
+
+    load_model = pickle.load(open('model.pickle', 'rb'))
     pred = load_model.predict(num_input) #вставляем итоговый список
     st.title(f"Числовой вход: {num_input}")
     st.title(f"Оценка срока службы: {int(pred)} месяцев")
