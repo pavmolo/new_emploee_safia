@@ -2,7 +2,6 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import pickle
-import catboost
 from catboost import CatBoostRegressor
 
 def create_new_dict(sex, age, fam, childrens, ed):
