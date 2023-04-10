@@ -55,7 +55,7 @@ def show_predict_page():
     load_model = pickle.load(open('model.pickle', 'rb'))
     pred = load_model.predict([num_input]) #вставляем итоговый список
     st.title(f"Числовой вход: {num_input}")
-    st.title(f"Оценка срока службы: {int(pred[0])} месяцев")
+    st.title(f"Оценка срока службы: {pred[0]} месяцев")
     
 # Вызываем приложение
 show_predict_page()
