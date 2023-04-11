@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import pickle5 as pickle
-from catboost import CatBoostRegressor
+from catboost import CatBoostClassifier
 import sklearn
 from sklearn.tree import DecisionTreeRegressor
 
@@ -55,7 +55,7 @@ def show_predict_page():
     num_input = create_new_dict(sex, age, fam, childrens, ed)
     #if st.button('Посчитать!'):
 
-    load_model = pickle.load(open('model-2.pickle', 'rb'))
+    load_model = pickle.load(open('model_cat.pickle', 'rb'))
     pred = load_model.predict([num_input]) #вставляем итоговый список
     st.title(f"Числовой вход: {num_input}")
     st.title(f"Оценка срока службы: {round(pred[0], 0)} месяцев")
