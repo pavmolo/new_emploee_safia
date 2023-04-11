@@ -18,18 +18,18 @@ def create_new_dict(sex, age, fam, childrens, ed):
     num_input.append(childrens)
     
     if fam == "Холост / Не замужем":
-        num_input.append(2)
-    else:
         num_input.append(1)
+    else:
+        num_input.append(0)
         
     if ed == 'Высшее':
         num_input.append(0)
     elif ed == 'Неоконченное высшее':
         num_input.append(1)
     elif ed == 'Среднее':
-        num_input.append(3)
+        num_input.append(2)
     else:
-        num_input.append(4)    
+        num_input.append(3)    
     
     return num_input
 
