@@ -53,7 +53,7 @@ def show_predict_page():
     ed = st.radio("Образование:", ed_list)
     
     num_input = create_new_dict(sex, age, fam, childrens, ed)
-   if st.button('Посчитать!'):
+    if st.button('Посчитать!'):
 
         load_model = pickle.load(open('model_cat.pickle', 'rb'))
         pred = load_model.predict([num_input]) #вставляем итоговый список
