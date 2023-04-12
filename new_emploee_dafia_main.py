@@ -57,10 +57,11 @@ def show_predict_page():
     from_file = CatBoostClassifier()
     from_file.load_model('model_cat')
 
-    load_model = pickle.load(open('model_cat.pickle', 'rb'))
-    pred = load_model.predict([num_input]) #вставляем итоговый список
+    #load_model = pickle.load(open('model_cat.pickle', 'rb'))
+    pred = from_file.predict([num_input]) #вставляем итоговый список
     st.title(f"Числовой вход: {num_input}")
     st.title(f"Оценка группы срока службы: {pred[0][0]}")
+
     
 # Вызываем приложение
 show_predict_page()
