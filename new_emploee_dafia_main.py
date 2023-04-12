@@ -53,12 +53,14 @@ def show_predict_page():
     ed = st.radio("Образование:", ed_list)
     
     num_input = create_new_dict(sex, age, fam, childrens, ed)
-    if st.button('Посчитать!'):
+    #if st.button('Посчитать!'):
+    from_file = CatBoostClassifier()
+    from_file.load_model('model_cat')
 
-        load_model = pickle.load(open('model_cat.pickle', 'rb'))
-        pred = load_model.predict([num_input]) #вставляем итоговый список
-        st.title(f"Числовой вход: {num_input}")
-        st.title(f"Оценка группы срока службы: {pred[0][0]}")
+    load_model = pickle.load(open('model_cat.pickle', 'rb'))
+    pred = load_model.predict([num_input]) #вставляем итоговый список
+    st.title(f"Числовой вход: {num_input}")
+    st.title(f"Оценка группы срока службы: {pred[0][0]}")
     
 # Вызываем приложение
 show_predict_page()
